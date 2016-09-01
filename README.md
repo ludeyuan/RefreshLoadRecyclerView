@@ -10,4 +10,5 @@ A实现了下拉刷新和上拉加载（已经满足最基本的需求）；但�
 如果只想实现基本的功能，请直接参考A，只保留上拉加载，请使用B；
 
 
-
+#效果图
+![RefreshLoadRecyclerView](screenshots/recyclerview.gif)
