@@ -15,3 +15,15 @@ A实现了下拉刷新和上拉加载（已经满足最基本的需求）；但�
 
 #介绍：
 这个Demo,下拉刷新的放在了PullToRefreshLayout中，而“加载更多”的布局，放在了Adapter中；
+
+#导入:
+allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+
+	dependencies {
+    	        compile 'com.github.ludeyuan:RefreshLoadRecyclerView:1.0'
+    	}
