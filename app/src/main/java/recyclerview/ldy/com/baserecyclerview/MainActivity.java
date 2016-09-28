@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ldy.com.baserecyclerview.BaseQuickAdapter;
-import ldy.com.baserecyclerview.demo1.PullToRefreshLayout;
+import ldy.com.baserecyclerview.refresh.PullToRefreshLayout;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         mSwipeRefreshLayout = (PullToRefreshLayout)findViewById(R.id.refreshLoadMoreLayout);
-//        mSwipeRefreshLayout.init(new RefreshLoadMoreLayout.Config(this).canRefresh(false).canLoadMore(false).autoLoadMore().showLastRefreshTime(MainActivity.class, "yyyy-MM-dd").multiTask());
+//        mSwipeRefreshLayout.setCanRefresh(false);
         mSwipeRefreshLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

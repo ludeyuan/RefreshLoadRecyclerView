@@ -10,7 +10,7 @@
     tools:context="recyclerview.ldy.com.baserecyclerview.MainActivity">
 
 
-    <ldy.com.baserecyclerview.demo1.PullToRefreshLayout
+    <ldy.com.baserecyclerview.refresh.PullToRefreshLayout
         android:id="@+id/refreshLoadMoreLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +20,6 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </ldy.com.baserecyclerview.demo1.PullToRefreshLayout>
+    </ldy.com.baserecyclerview.refresh.PullToRefreshLayout>
 
 </RelativeLayout>
