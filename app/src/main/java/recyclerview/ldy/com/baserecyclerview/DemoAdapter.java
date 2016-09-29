@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -34,19 +35,23 @@ public class DemoAdapter extends BaseQuickAdapter<String> {
         return demoHolder;
     }
 
-    public class DemoHolder extends BaseViewHolder{
+    public class DemoHolder extends BaseViewHolder implements View.OnClickListener{
 
         private TextView mTitleText;
 
         public DemoHolder(View view){
             super(view);
+            view.setOnClickListener(this);
             mTitleText = (TextView)view.findViewById(R.id.item_text_position);
-
         }
 
         public void bindText(String str){
             mTitleText.setText(str+"");
         }
 
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext,"点击了",Toast.LENGTH_SHORT).show();
+        }
     }
 }

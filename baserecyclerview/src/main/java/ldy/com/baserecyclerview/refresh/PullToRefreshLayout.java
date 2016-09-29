@@ -140,6 +140,8 @@ public class PullToRefreshLayout extends FrameLayout {
                             endRefresh(dy2);
                         }
                     }
+                    reset();
+                    return true;
                 }
 
                 reset();
