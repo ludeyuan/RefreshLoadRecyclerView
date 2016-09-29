@@ -139,9 +139,10 @@ public class PullToRefreshLayout extends FrameLayout {
                         } else if (dy2 > 0 && dy2 < mHeaderHeight) {
                             endRefresh(dy2);
                         }
+                        reset();
+                        return true;
                     }
-                    reset();
-                    return true;
+
                 }
 
                 reset();
