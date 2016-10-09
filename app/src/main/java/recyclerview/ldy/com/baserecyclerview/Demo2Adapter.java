@@ -34,14 +34,6 @@ public class Demo2Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
-//    public int getFirstNumber() {
-//        return 0 == mDataList.size() ? 0 : mDataList.get(0);
-//    }
-
-//    public int getLastNumber() {
-//        return 0 == mDataList.size() ? 0 : mDataList.get(mDataList.size() - 1);
-//    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (0 == viewType) {

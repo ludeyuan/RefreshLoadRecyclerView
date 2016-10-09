@@ -3,4 +3,10 @@
         <attr name="headerView" format="reference"/>
         <attr name="footerView" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="leftViewId" format="reference" />
+        <attr name="rightViewId" format="reference" />
+        <attr name="contentViewId" format="reference" />
+    </declare-styleable>
 </resources>

@@ -18,10 +18,12 @@ import ldy.com.baserecyclerview.BaseViewHolder;
 public class DemoAdapter extends BaseQuickAdapter<String> {
 
 
+
     public DemoAdapter(Context context, List<String> lists){
         super(R.layout.layout_adapter_item,lists);
         mContext = context;
     }
+
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
@@ -29,9 +31,11 @@ public class DemoAdapter extends BaseQuickAdapter<String> {
         demoHolder.bindText(item);
     }
 
+
     @Override
     protected BaseViewHolder onCreateDefViewHolder(ViewGroup parent, int viewType) {
-        DemoHolder demoHolder = new DemoHolder(getItemView(R.layout.layout_adapter_item,parent));
+
+        DemoHolder demoHolder = new DemoHolder(getItemView(R.layout.layout_adapter_item,parent,viewType));
         return demoHolder;
     }
 

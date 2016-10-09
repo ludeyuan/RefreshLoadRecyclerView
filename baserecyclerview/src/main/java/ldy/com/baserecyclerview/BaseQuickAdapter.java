@@ -31,6 +31,14 @@ import ldy.com.baserecyclerview.animation.SlideInLeftAnimation;
 import ldy.com.baserecyclerview.animation.SlideInRightAnimation;
 import ldy.com.baserecyclerview.listener.OnItemDragListener;
 import ldy.com.baserecyclerview.listener.OnItemSwipeListener;
+import ldy.com.baserecyclerview.recyclerview.OnSwipeMenuItemClickListener;
+import ldy.com.baserecyclerview.recyclerview.SwipeConstants;
+import ldy.com.baserecyclerview.recyclerview.SwipeMenu;
+import ldy.com.baserecyclerview.recyclerview.SwipeMenuCreator;
+import ldy.com.baserecyclerview.recyclerview.SwipeMenuLayout;
+import ldy.com.baserecyclerview.recyclerview.SwipeMenuView;
+
+
 
 
 /**
@@ -58,6 +66,10 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
     private View mFooterView;
     private int pageSize = -1;
     private View mContentView;
+
+    private SwipeMenuCreator mSwipeMenuCreator;
+    private OnSwipeMenuItemClickListener mSwipeMenuItemClickListener;
+
     /**
      * View to show if there are no items to show.
      */
@@ -113,6 +125,14 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
     private View.OnLongClickListener mOnToggleViewLongClickListener;
 
     private static final String ERROR_NOT_SAME_ITEMTOUCHHELPER = "Item drag and item swipe should pass the same ItemTouchHelper";
+
+    public void setSwipeMenuCreator(SwipeMenuCreator swipeMenuCreator) {
+        this.mSwipeMenuCreator = swipeMenuCreator;
+    }
+
+    public void setSwipeMenuItemClickListener(OnSwipeMenuItemClickListener swipeMenuItemClickListener) {
+        this.mSwipeMenuItemClickListener = swipeMenuItemClickListener;
+    }
 
     /**
      * call the method will not enable the loadMore funcation and the params pageSize is invalid
@@ -520,7 +540,7 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
 
     private BaseViewHolder getLoadingView(ViewGroup parent) {
         if (mLoadingView == null) {
-            return createBaseViewHolder(parent, R.layout.def_loading);
+            return createBaseViewHolder(parent, R.layout.def_loading,-1);
         }
         return new BaseViewHolder(mLoadingView);
     }
@@ -581,6 +601,19 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
      */
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int positions) {
+
+        View itemView = holder.itemView;
+        if (itemView instanceof SwipeMenuLayout) {
+            SwipeMenuLayout swipeMenuLayout = (SwipeMenuLayout) itemView;
+            int childCount = swipeMenuLayout.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childView = swipeMenuLayout.getChildAt(i);
+                if (childView instanceof SwipeMenuView) {
+                    ((SwipeMenuView) childView).bindAdapterViewHolder(holder);
+                }
+            }
+        }
+
         int viewType = holder.getItemViewType();
 
         switch (viewType) {
@@ -623,12 +656,19 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
     }
 
     protected BaseViewHolder onCreateDefViewHolder(ViewGroup parent, int viewType) {
-        return createBaseViewHolder(parent, mLayoutResId);
+        return createBaseViewHolder(parent, mLayoutResId,viewType);
     }
 
     protected BaseViewHolder createBaseViewHolder(ViewGroup parent, int layoutResId) {
         if (mContentView == null) {
-            return new BaseViewHolder(getItemView(layoutResId, parent));
+            return new BaseViewHolder(getItemView(layoutResId, parent,-1));
+        }
+        return new BaseViewHolder(mContentView);
+    }
+
+    protected BaseViewHolder createBaseViewHolder(ViewGroup parent, int layoutResId,int viewType) {
+        if (mContentView == null) {
+            return new BaseViewHolder(getItemView(layoutResId, parent,viewType));
         }
         return new BaseViewHolder(mContentView);
     }
@@ -811,8 +851,45 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
      *                    hierarchy
      * @return view will be return
      */
-    protected View getItemView(int layoutResId, ViewGroup parent) {
-        return mLayoutInflater.inflate(layoutResId, parent, false);
+    protected View getItemView(int layoutResId, ViewGroup parent,int viewType) {
+        View contentView = mLayoutInflater.inflate(layoutResId, parent, false);
+        if(viewType==-1){
+            return contentView;
+        }
+        if (mSwipeMenuCreator != null) {
+            SwipeMenuLayout swipeMenuLayout = (SwipeMenuLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_default, parent, false);
+
+            SwipeMenu swipeLeftMenu = new SwipeMenu(swipeMenuLayout, viewType);
+            SwipeMenu swipeRightMenu = new SwipeMenu(swipeMenuLayout, viewType);
+
+            mSwipeMenuCreator.onCreateMenu(swipeLeftMenu, swipeRightMenu, viewType);
+
+            int leftMenuCount = swipeLeftMenu.getMenuItems().size();
+            if (leftMenuCount > 0) {
+                SwipeMenuView swipeLeftMenuView = (SwipeMenuView) swipeMenuLayout.findViewById(R.id.swipe_left);
+                swipeLeftMenuView.setOrientation(swipeLeftMenu.getOrientation());
+                swipeLeftMenuView.bindMenu(swipeLeftMenu, SwipeConstants.LEFT_DIRECTION);
+                swipeLeftMenuView.bindMenuItemClickListener(mSwipeMenuItemClickListener, swipeMenuLayout);
+            }
+
+            int rightMenuCount = swipeRightMenu.getMenuItems().size();
+            if (rightMenuCount > 0) {
+                SwipeMenuView swipeRightMenuView = (SwipeMenuView) swipeMenuLayout.findViewById(R.id.swipe_right);
+                swipeRightMenuView.setOrientation(swipeRightMenu.getOrientation());
+                swipeRightMenuView.bindMenu(swipeRightMenu, SwipeConstants.RIGHT_DIRECTION);
+                swipeRightMenuView.bindMenuItemClickListener(mSwipeMenuItemClickListener, swipeMenuLayout);
+            }
+
+            if (leftMenuCount > 0 || rightMenuCount > 0) {
+                ViewGroup viewGroup = (ViewGroup) swipeMenuLayout.findViewById(R.id.swipe_content);
+                viewGroup.addView(contentView);
+                contentView = swipeMenuLayout;
+
+            }
+        }
+
+
+        return contentView;
     }
 
 
@@ -823,6 +900,7 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
      */
     @Deprecated
     protected void onBindDefViewHolder(BaseViewHolder holder, T item) {
+
     }
 
     public interface RequestLoadMoreListener {
