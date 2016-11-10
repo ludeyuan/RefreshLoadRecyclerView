@@ -32,7 +32,10 @@ public class PullToRefreshLayout extends FrameLayout {
 
     private HeaderView mHeaderView;
     private View mChildView;
+    private boolean mCanTouch = true;//可以继续处理
+    private float mCurrentX;
     private float mCurrentY;
+    private boolean mDealChildren = false;
     private float mTouchY;
 
     private int mHeaderViewResId;
@@ -52,11 +55,11 @@ public class PullToRefreshLayout extends FrameLayout {
 
     private void init(Context context, AttributeSet attrs) {
         mHeaderHeight = dp2Px(context, mHeaderHeight);
-        mMaxHeaderHeight = dp2Px(context,mMaxHeaderHeight);
+        mMaxHeaderHeight = dp2Px(context, mMaxHeaderHeight);
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.PullToRefreshLayout);
 
-        LayoutInflater mInflater = (LayoutInflater)context
+        LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mHeaderViewResId = a.getResourceId(R.styleable.PullToRefreshLayout_headerView,
                 R.layout.header_view);
@@ -102,41 +105,59 @@ public class PullToRefreshLayout extends FrameLayout {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTouchY = ev.getY();
+                mCurrentX = ev.getX();
                 mCurrentY = mTouchY;
+                mDealChildren = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (canRefresh) {
+                    if (Math.abs(ev.getX() - mCurrentX) > Math.abs(ev.getY() - mCurrentY)) {
+                    }
                     float distance = ev.getY() - mCurrentY;
-                    if(!canChildScrollUp()){
-                        if(distance > 0){
+                    if (!canChildScrollUp()) {
+                        if (distance > 0) {
                             if (distance > 0 && canRefresh) {
                                 distance = Math.min(mMaxHeaderHeight, distance);
                                 distance = Math.max(0, distance);
                                 mHeaderView.getLayoutParams().height = mHeaderHeight;
-                                ViewCompat.setTranslationY(mHeaderView,distance-mHeaderHeight);
+                                ViewCompat.setTranslationY(mHeaderView, distance - mHeaderHeight);
                                 ViewCompat.setTranslationY(mChildView, distance);
                                 requestLayout();
                                 if (mHeaderView instanceof OnViewHeightListener) {
                                     mOnViewHeightListener = (OnViewHeightListener) mHeaderView;
                                     mOnViewHeightListener.onHeight(distance, mMaxHeaderHeight);
                                 }
+
+                                //时间内部消化了，就把子界面上的事件设置成取消
+                                if (!mDealChildren) {
+                                    mDealChildren = true;
+                                    ev.setAction(MotionEvent.ACTION_CANCEL);
+                                    int childConut = getChildCount();
+                                    for (int i = 0; i < childConut; i++) {
+                                        View child = getChildAt(i);
+                                        child.dispatchTouchEvent(ev);
+                                    }
+                                }
+
                             }
+//
                             return true;
-                        }else if(canRefresh && -mHeaderView.getTranslationY()!=mHeaderHeight){
+                        } else if (canRefresh && -mHeaderView.getTranslationY() != mHeaderHeight) {
                             //上移动，解决出现空白的情况
-                            ViewCompat.setTranslationY(mHeaderView,-mHeaderHeight);
+                            ViewCompat.setTranslationY(mHeaderView, -mHeaderHeight);
                             ViewCompat.setTranslationY(mChildView, 0);
                             requestLayout();
                             //这里不能添加true,还需要把事件给下层处理
                         }
-                    }else{
+                    } else {
                         mCurrentY = ev.getY();
                     }
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                if(!canChildScrollUp()){
+                if (!canChildScrollUp()) {
+                    mCanTouch = true;
                     int dy2 = (int) (ev.getY() - mCurrentY);
                     if (dy2 > 0 && canRefresh) {
                         if (dy2 >= mHeaderHeight) {
@@ -201,7 +222,7 @@ public class PullToRefreshLayout extends FrameLayout {
                 int value = (int) animation.getAnimatedValue();
                 if (state == REFRESH) {
 //                    mHeaderView.getLayoutParams().height = value;
-                    ViewCompat.setTranslationY(mHeaderView, value-mHeaderHeight);
+                    ViewCompat.setTranslationY(mHeaderView, value - mHeaderHeight);
                     ViewCompat.setTranslationY(mChildView, value);
                     if (mHeaderView instanceof OnViewHeightListener) {
                         mOnViewHeightListener = (OnViewHeightListener) mHeaderView;
@@ -224,7 +245,7 @@ public class PullToRefreshLayout extends FrameLayout {
      */
     public void autoRefresh() {
         if (canRefresh) {
-            Log.i(TAG, "autoRefresh: mHeaderView"+mHeaderView);
+            Log.i(TAG, "autoRefresh: mHeaderView" + mHeaderView);
             if (mHeaderView != null && mHeaderView instanceof PullToRefreshLayout.OnViewHeightListener) {
                 ((OnViewHeightListener) mHeaderView).begin();//开始动画
             }
