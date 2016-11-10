@@ -122,6 +122,12 @@ public class PullToRefreshLayout extends FrameLayout {
                                 }
                             }
                             return true;
+                        }else if(canRefresh && -mHeaderView.getTranslationY()!=mHeaderHeight){
+                            //上移动，解决出现空白的情况
+                            ViewCompat.setTranslationY(mHeaderView,-mHeaderHeight);
+                            ViewCompat.setTranslationY(mChildView, 0);
+                            requestLayout();
+                            //这里不能添加true,还需要把事件给下层处理
                         }
                     }else{
                         mCurrentY = ev.getY();

@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements
             {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(MainActivity.this)
                         .setBackgroundColor(Color.GRAY)
-//                        .setBackgroundDrawable(R.drawable.selector_red)
-//                        .setImage(R.mipmap.ic_action_delete)
                         .setText("取消收藏") // 文字，还可以设置文字颜色，大小等。。
                         .setTextColor(Color.WHITE)
                         .setWidth(width)

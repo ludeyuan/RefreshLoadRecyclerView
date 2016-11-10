@@ -13,5 +13,12 @@
         android:padding="30dp"
         android:text="--"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/item_text_position"
+        android:background="@drawable/selector_red"
+        />
 
 </RelativeLayout>
