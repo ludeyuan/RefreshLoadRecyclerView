@@ -111,12 +111,12 @@ public class PullToRefreshLayout extends FrameLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (canRefresh) {
-                    if (Math.abs(ev.getX() - mCurrentX) > Math.abs(ev.getY() - mCurrentY)) {
-                    }
                     float distance = ev.getY() - mCurrentY;
+                    float distanceX = ev.getX() - mCurrentX;
                     if (!canChildScrollUp()) {
-                        if (distance > 0) {
+                        if (distance > 0 && (Math.abs(distance)>Math.abs(distanceX))) {
                             if (distance > 0 && canRefresh) {
+                                mCurrentX = ev.getX();
                                 distance = Math.min(mMaxHeaderHeight, distance);
                                 distance = Math.max(0, distance);
                                 mHeaderView.getLayoutParams().height = mHeaderHeight;
@@ -140,9 +140,11 @@ public class PullToRefreshLayout extends FrameLayout {
                                 }
 
                             }
-//
                             return true;
-                        } else if (canRefresh && -mHeaderView.getTranslationY() != mHeaderHeight) {
+                        }else if(distance > 0 && (Math.abs(distance)<Math.abs(distanceX))){
+                            //防止手指离开后，ACTION_UP的测距离的时候会导致界面抖动一下
+                            mCurrentY = ev.getY();
+                        }else if (canRefresh && (-mHeaderView.getTranslationY() != mHeaderHeight)) {
                             //上移动，解决出现空白的情况
                             ViewCompat.setTranslationY(mHeaderView, -mHeaderHeight);
                             ViewCompat.setTranslationY(mChildView, 0);
