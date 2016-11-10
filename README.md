@@ -46,13 +46,19 @@
     ```
 
 2、设置下拉刷新
+
+    ```
     mSwipeRefreshLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             //执行刷新的事件，并在刷新完成后调用mSwipeRefreshLayout.endRefresh();
         });
 
+    ```
+
 3、设置上拉加载
+
+    ```
     mAdapter.openLoadAnimation();
     mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener(){
         @Override
@@ -68,8 +74,11 @@
     });
     mAdapter.openLoadMore(lists.size(),true);
 
+    ```
+
 4、设置滑动删除
 
+    ```
     //设置滑动后出现的菜单
     mAdapter.setSwipeMenuCreator(new SwipeMenuCreator() {
         @Override
@@ -119,3 +128,5 @@
             mAdapter.notifyItemRemoved(adapterPosition);
         }
     });
+
+    ```
