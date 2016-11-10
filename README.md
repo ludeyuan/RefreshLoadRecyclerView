@@ -1,6 +1,8 @@
 ＃主要的功能：
-1、下拉刷新；（参考：https://github.com/changjiashuai/PullToRefreshLayout）
+1、下拉刷新；（参考：https://github.com/changjiashuai/PullToRefreshLayout;
+
 2、上拉加载（参考：https://github.com/CymChad/BaseRecyclerViewAdapterHelper）；
+
 3、滑动删除；
 
 ＃说明：
@@ -23,7 +25,7 @@
 	}
 
 	dependencies {
-    	        compile 'com.github.ludeyuan:RefreshLoadRecyclerView:1.0'
+    	        compile 'com.github.ludeyuan:RefreshLoadRecyclerView:2.2'
     	}
 
 ##配置代码
