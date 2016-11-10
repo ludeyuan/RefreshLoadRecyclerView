@@ -138,7 +138,6 @@ public class PullToRefreshLayout extends FrameLayout {
                                         child.dispatchTouchEvent(ev);
                                     }
                                 }
-
                             }
                             return true;
                         }else if(distance > 0 && (Math.abs(distance)<Math.abs(distanceX))){
