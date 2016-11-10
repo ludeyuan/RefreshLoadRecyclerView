@@ -30,6 +30,7 @@
 
 ##配置代码
 1、xml
+    ```
     <ldy.com.baserecyclerview.refresh.PullToRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ldy.com.baserecyclerview.refresh.PullToRefreshLayout>
+    ```
 
 2、设置下拉刷新
     mSwipeRefreshLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
