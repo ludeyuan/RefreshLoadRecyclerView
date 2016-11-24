@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
-    <item android:drawable="@drawable/refresh_wait_1" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_2" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_3" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_4" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_5" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_6" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_7" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_8" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_9" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_10" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_11" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_12" android:duration="100"/>
-    <item android:drawable="@drawable/refresh_wait_13" android:duration="100"/>
+
+    <item android:drawable="@drawable/image_progress_wait_red_01" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_02" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_03" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_04" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_05" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_06" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_07" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_08" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_09" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_10" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_11" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_12" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_13" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_14" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_15" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_16" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_17" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_18" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_19" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_20" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_21" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_22" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_23" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_24" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_25" android:duration="50"/>
+    <item android:drawable="@drawable/image_progress_wait_red_26" android:duration="50"/>
+
 </animation-list>
