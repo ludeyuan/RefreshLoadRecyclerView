@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import ldy.com.baserecyclerview.R;
@@ -39,6 +40,8 @@ public class PullToRefreshLayout extends FrameLayout {
     private float mTouchY;
 
     private int mHeaderViewResId;
+
+    private DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator(10);
 
     public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
         mOnRefreshListener = onRefreshListener;
@@ -117,8 +120,11 @@ public class PullToRefreshLayout extends FrameLayout {
                         if (distance > 0 && (Math.abs(distance)>Math.abs(distanceX))) {
                             if (distance > 0 && canRefresh) {
                                 mCurrentX = ev.getX();
+                                distance = mDecelerateInterpolator.getInterpolation(distance/3 / mMaxHeaderHeight) * distance/3;
+
                                 distance = Math.min(mMaxHeaderHeight, distance);
                                 distance = Math.max(0, distance);
+
                                 mHeaderView.getLayoutParams().height = mHeaderHeight;
                                 ViewCompat.setTranslationY(mHeaderView, distance - mHeaderHeight);
                                 ViewCompat.setTranslationY(mChildView, distance);
@@ -159,13 +165,13 @@ public class PullToRefreshLayout extends FrameLayout {
             case MotionEvent.ACTION_UP:
                 if (!canChildScrollUp()) {
                     mCanTouch = true;
-                    int dy2 = (int) (ev.getY() - mCurrentY);
+                    float dy2 = (int) (ev.getY() - mCurrentY);
+                    dy2 = (mDecelerateInterpolator.getInterpolation(dy2/3 / mMaxHeaderHeight) * dy2/3);
                     if (dy2 > 0 && canRefresh) {
                         if (dy2 >= mHeaderHeight) {
-                            //
-                            startRefresh(dy2 > mMaxHeaderHeight ? mMaxHeaderHeight : dy2, mHeaderHeight);
+                            startRefresh(dy2 > mMaxHeaderHeight ? mMaxHeaderHeight : (int)dy2, mHeaderHeight);
                         } else if (dy2 > 0 && dy2 < mHeaderHeight) {
-                            endRefresh(dy2);
+                            endRefresh((int)dy2);
                         }
                         reset();
                         return true;
