@@ -67,7 +67,7 @@ public class PullToRefreshLayout extends FrameLayout {
         mHeaderViewResId = a.getResourceId(R.styleable.PullToRefreshLayout_headerView,
                 R.layout.header_view);
         a.recycle();
-        mHeaderView = (HeaderView) mInflater.inflate(mHeaderViewResId, this, false);
+        mHeaderView = (BaseHeaderView) mInflater.inflate(mHeaderViewResId, this, false);
     }
 
     public void setCanRefresh(boolean canRefresh) {

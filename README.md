@@ -56,7 +56,14 @@
 
     ```
 
-3、设置上拉加载
+3、自定义刷新的头部
+    a、自定义头部类A（参考SmallHeaderView），教程BaseHeaderView;在begin()和end()的方法中实现动画的开始和结束；
+    b、自定义A必须继承RelativeLayout;
+    c、定义布局B(参考small_header_view.xml)，在布局中引用类A;
+    d、在PullToRefreshLayout的引用文件中引入布局B，参考activity_main.xml
+
+
+4、设置上拉加载
 
     ```
     mAdapter.openLoadAnimation();
@@ -76,7 +83,7 @@
 
     ```
 
-4、设置滑动删除
+5、设置滑动删除
 
     ```
     //设置滑动后出现的菜单
