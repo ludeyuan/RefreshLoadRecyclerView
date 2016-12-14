@@ -31,7 +31,7 @@ public class PullToRefreshLayout extends FrameLayout {
     private int mHeaderHeight = 100;    //default 100px
     private int mMaxHeaderHeight = 150; //default 150px=2*mHeaderHeight
 
-    private HeaderView mHeaderView;
+    private BaseHeaderView mHeaderView;
     private View mChildView;
     private boolean mCanTouch = true;//可以继续处理
     private float mCurrentX;

@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import ldy.com.baserecyclerview.R;
 
@@ -14,7 +13,7 @@ import ldy.com.baserecyclerview.R;
  * Created by ludeyuan on 16/9/28.
  */
 
-public class HeaderView extends RelativeLayout{
+public class HeaderView extends BaseHeaderView{
 
     private ImageView mRefreshImage;
 
