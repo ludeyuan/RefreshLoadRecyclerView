@@ -40,6 +40,7 @@ public class PullToRefreshLayout extends FrameLayout {
     private float mTouchY;
 
     private int mHeaderViewResId;
+    private final float MIX_HEIGHT = 0.999f;    //最小的滑动距离，小于这个距离就不处理
 
     private DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator(10);
 
@@ -167,7 +168,7 @@ public class PullToRefreshLayout extends FrameLayout {
                     mCanTouch = true;
                     float dy2 = (int) (ev.getY() - mCurrentY);
                     dy2 = (mDecelerateInterpolator.getInterpolation(dy2/3 / mMaxHeaderHeight) * dy2/3);
-                    if (dy2 > 0 && canRefresh) {
+                    if (dy2 > MIX_HEIGHT && canRefresh) {
                         if (dy2 >= mHeaderHeight) {
                             startRefresh(dy2 > mMaxHeaderHeight ? mMaxHeaderHeight : (int)dy2, mHeaderHeight);
                         } else if (dy2 > 0 && dy2 < mHeaderHeight) {

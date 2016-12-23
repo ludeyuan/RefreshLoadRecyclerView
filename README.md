@@ -72,7 +72,7 @@
         public void onLoadMoreRequested() {
             //执行加载更多的操作
 
-            ...
+            ...app-yingyongbao-release.apk
 
             //加载完成后调用下面的方法
             mAdapter.addData(lists);
