@@ -137,3 +137,6 @@
     });
 
     ```
+
+    注意：在onCreateDefViewHolder中，获取View的时候，要把viewType带上，不然会导致不能划出菜单
+    View view = getItemView(R.layout.news_item,parent,viewType);
