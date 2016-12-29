@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        pull:headerView="@layout/main_header_view"
         android:orientation="vertical"
         >
 

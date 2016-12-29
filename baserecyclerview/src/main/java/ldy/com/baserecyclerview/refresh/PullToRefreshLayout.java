@@ -135,7 +135,7 @@ public class PullToRefreshLayout extends FrameLayout {
                                     mOnViewHeightListener.onHeight(distance, mMaxHeaderHeight);
                                 }
 
-                                //时间内部消化了，就把子界面上的事件设置成取消
+                                //事件内部消化了，就把子界面上的事件设置成取消
                                 if (!mDealChildren) {
                                     mDealChildren = true;
                                     ev.setAction(MotionEvent.ACTION_CANCEL);
@@ -168,7 +168,8 @@ public class PullToRefreshLayout extends FrameLayout {
                     mCanTouch = true;
                     float dy2 = (int) (ev.getY() - mCurrentY);
                     dy2 = (mDecelerateInterpolator.getInterpolation(dy2/3 / mMaxHeaderHeight) * dy2/3);
-                    if (dy2 > MIX_HEIGHT && canRefresh) {
+                    //可能没有刷新，但dy2大于刷新的高度（事件被内部获取），多分保险，判断滑动的距离是必须动的
+                    if (dy2 > MIX_HEIGHT && canRefresh && -mHeaderView.getTranslationY()!=mHeaderHeight) {
                         if (dy2 >= mHeaderHeight) {
                             startRefresh(dy2 > mMaxHeaderHeight ? mMaxHeaderHeight : (int)dy2, mHeaderHeight);
                         } else if (dy2 > 0 && dy2 < mHeaderHeight) {
